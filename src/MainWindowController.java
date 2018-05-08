@@ -1,12 +1,15 @@
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.Pair;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class MainWindowController {
 
     private String input = "";
+    private ArrayList<Pair<String, BigDecimal>> history = new ArrayList<>();
 
     @FXML
     private TextField inputField;
@@ -111,6 +114,7 @@ public class MainWindowController {
             input = input.substring(0, input.length()-1);
             inputField.setText(input);
         }
+        resultLabel.setText("");
     }
 
     @FXML
@@ -119,6 +123,7 @@ public class MainWindowController {
         expression.setPrecision(10);
         BigDecimal result = expression.eval();
         resultLabel.setText(result.toString());
+        history.add(new Pair<>(input, result));
     }
 
     @FXML
@@ -126,5 +131,10 @@ public class MainWindowController {
         input = "";
         inputField.setText("0");
         resultLabel.setText("");
+    }
+
+    @FXML
+    private void inputChanged(){
+        input = inputField.getText();
     }
 }
