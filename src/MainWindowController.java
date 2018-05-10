@@ -1,7 +1,5 @@
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.util.Pair;
+import javafx.scene.control.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -9,12 +7,14 @@ import java.util.ArrayList;
 public class MainWindowController {
 
     private String input = "";
-    private ArrayList<Pair<String, BigDecimal>> history = new ArrayList<>();
+    private ArrayList<History> history = new ArrayList<>();
 
     @FXML
     private TextField inputField;
     @FXML
     private Label resultLabel;
+    @FXML
+    private ListView historyList;
 
     @FXML
     private void zeroClicked(){
@@ -123,7 +123,9 @@ public class MainWindowController {
         expression.setPrecision(10);
         BigDecimal result = expression.eval();
         resultLabel.setText(result.toString());
-        history.add(new Pair<>(input, result));
+        history.add(new History(input, result));
+        historyList.getItems().setAll(history);
+        historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     @FXML
@@ -136,5 +138,13 @@ public class MainWindowController {
     @FXML
     private void inputChanged(){
         input = inputField.getText();
+    }
+
+    @FXML
+    private void historyClicked(){
+        History history = (History) historyList.getSelectionModel().getSelectedItem();
+        input = history.getExpression();
+        inputField.setText(history.getExpression());
+        resultLabel.setText(history.getResult().toString());
     }
 }
