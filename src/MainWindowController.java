@@ -126,6 +126,7 @@ public class MainWindowController {
         history.add(new History(input, result));
         historyList.getItems().setAll(history);
         historyList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        input = "";
     }
 
     @FXML
